@@ -1,0 +1,53 @@
+name: xsh
+version: 0.0.1
+license: AllRightsReserved
+author: Mark Hibberd <mark@hibberd.id.au>
+maintainer: Mark Hibberd <mark@hibberd.id.au>
+copyright: (c) 2017 Mark Hibberd
+cabal-version: >= 1.24
+build-type: Simple
+description:
+  A toy shell.
+
+library
+  default-language: Haskell2010
+
+  build-depends:
+      base >= 3 && < 5
+
+  ghc-options:
+    -Wall
+
+  hs-source-dirs:
+    src
+
+  exposed-modules:
+    Xsh.Data
+
+
+executable xsh
+  default-language: Haskell2010
+  main-is: main/xsh.hs
+  build-depends:
+      base >= 3 && < 5
+    , xsh
+
+  ghc-options:
+    -Wall
+    -O2
+    -threaded
+
+test-suite test
+  default-language: Haskell2010
+  type: exitcode-stdio-1.0
+  main-is: test.hs
+  hs-source-dirs: test
+  build-depends:
+      base >= 3 && < 5
+    , xsh
+    , QuickCheck >= 2.8.2      && < 2.9
+
+  ghc-options:
+    -Wall
+    -threaded
+    -O2

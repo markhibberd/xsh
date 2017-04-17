@@ -69,11 +69,22 @@ program = do
 --
 list :: Parser List
 list =
-  error "TODO: Parser.list"
+  pipeline >>= list' . SingletonList
 
 list' :: List -> Parser List
 list' x =
-  error "TODO: Parser.list'"
+  let
+    pand = do
+      expect AndToken
+      y <- pipeline
+      list' $ AndList x y
+
+    por = do
+      expect OrToken
+      y <- pipeline
+      list' $ OrList x y
+  in
+    Mega.choice [pand, por, pure x]
 
 --
 -- BASELINE EXERCISE 14.
@@ -84,11 +95,17 @@ list' x =
 --
 pipeline :: Parser Pipeline
 pipeline =
-  error "TODO: Parser.pipeline"
+  command >>= pipeline' . SingletonPipeline
 
 pipeline' :: Pipeline -> Parser Pipeline
 pipeline' x =
-  error "TODO: Parser.pipeline'"
+  let
+    pcompound = do
+      expect PipeToken
+      y <- command
+      pipeline' $ CompoundPipeline x y
+  in
+    Mega.choice [pcompound, pure x]
 
 --
 -- BASELINE EXERCISE 13.
@@ -98,7 +115,7 @@ pipeline' x =
 --
 command :: Parser Command
 command =
-  error "TODO: Parser.command"
+  Command <$> some word
 
 --
 -- BASELINE EXERCISE 12.
@@ -110,7 +127,12 @@ command =
 --
 word :: Parser Word
 word =
-  error "TODO: Parser.word"
+  satisfyM $ \t ->
+    case getPositioned t of
+      WordToken tt ->
+        Just tt
+      _ ->
+        Nothing
 
 --
 -- BASELINE EXERCISE 11.
@@ -123,7 +145,12 @@ word =
 --
 expect :: Token -> Parser ()
 expect x =
-  error "TODO: Parser.expect"
+  satisfyM $ \t ->
+    case getPositioned t == x of
+      True ->
+        Just ()
+      False ->
+        Nothing
 
 -- --
 -- A satisfy method that allows you to transform token at the same time

@@ -106,7 +106,7 @@ spaceOrComment =
 --
 word :: Lexer Word
 word =
-  error "TODO: Lexer.word"
+  Word <$> (some . choice $ [hard, soft, unquoted])
 
 --
 -- BASELINE EXERCISE 9.
@@ -115,7 +115,8 @@ word =
 --
 hard :: Lexer Part
 hard =
-  error "TODO: Lexer.hard"
+  fmap (HardQuotedPart . T.pack) $
+    Mega.between (char '\'') (char '\'') (many $ satisfy (/= '\''))
 
 --
 -- BASELINE EXERCISE 8.
@@ -127,7 +128,11 @@ hard =
 --
 soft :: Lexer Part
 soft =
-  error "TODO: Lexer.soft"
+  Mega.between (char '"') (char '"') $
+    SoftQuotedPart <$> (choice [
+        some . choice $ [variable, softText]
+      , pure $ [TextFragment ""]
+      ])
 
 --
 -- BASELINE EXERCISE 7.
@@ -140,7 +145,7 @@ soft =
 --
 unquoted :: Lexer Part
 unquoted =
-  error "TODO: Lexer.unquoted"
+  UnquotedPart <$> (some . choice $ [variable, unquotedText])
 
 --
 -- BASELINE EXERCISE 6.
@@ -154,7 +159,10 @@ unquoted =
 --
 variable :: Lexer Fragment
 variable =
-  error "TODO: Lexer.variable"
+  choice [
+      Mega.try $ VariableFragment <$ char '$' <*> (fmap T.pack $ some nameChar)
+    , VariableFragment <$ char '$' <*> (Mega.between (char '{') (char '}') (fmap T.pack $ some nameChar))
+    ]
 
 --
 -- BASELINE EXERCISE 5.
@@ -164,8 +172,8 @@ variable =
 --
 unquotedText :: Lexer Fragment
 unquotedText =
-  error "TODO: Lexer.unquotedText"
-
+  fmap (TextFragment . T.pack) $
+    some unquotedChar
 --
 -- BASELINE EXERCISE 4 (Answer provided as example).
 --
@@ -186,7 +194,7 @@ softText =
 --
 nameChar :: Lexer Char
 nameChar =
-  error "TODO: Lexer.nameChar"
+  satisfy (flip elem (join [['A'..'Z'], ['a'..'z'], ['0'..'9'], "_"]))
 
 --
 -- BASELINE EXERCISE 2.
@@ -206,7 +214,24 @@ nameChar =
 --
 softChar :: Lexer Char
 softChar =
-  error "TODO: Lexer.softChar"
+  choice [
+      -- There is a bunch of other escape codes that should be supported
+      --  \a - bell
+      --  \b - backspace
+      --  \e - escape
+      --  \E
+      --  \V
+      --  \ooo - octal
+      --  \x - hex
+
+      '\t' <$ string "\\t"
+    , '\n' <$ string "\\n"
+    , '\r' <$ string "\\r"
+    , '\\' <$ string "\\\\"
+    , '\'' <$ string "\\'"
+    , '"' <$ string "\\\""
+    , satisfy (not . flip elem ("`$\"":: [Char]))
+    ]
 
 --
 -- BASELINE EXERCISE 1 (Answer provided as example).

@@ -36,7 +36,23 @@ interpret i o e program = do
 --
 runList :: Handle -> Handle -> Handle -> List -> IO ExitCode
 runList i o e list =
-  error "TODO: runList"
+  case list of
+    SingletonList pipeline ->
+      runPipeline i o e pipeline
+    AndList parent pipeline -> do
+      r <- runList i o e parent
+      case r == ExitSuccess of
+        True ->
+          runPipeline i o e pipeline
+        False ->
+          pure r
+    OrList parent pipeline -> do
+      r <- runList i o e parent
+      case r == ExitSuccess of
+        True ->
+          pure r
+        False ->
+          runPipeline i o e pipeline
 
 --
 -- BASELINE EXERCISE 16.
@@ -54,7 +70,13 @@ runList i o e list =
 --
 runPipeline :: Handle -> Handle -> Handle -> Pipeline -> IO ExitCode
 runPipeline i o e pipeline =
-  error "TODO: runPipeline"
+  case pipeline of
+    SingletonPipeline command ->
+      runCommand i o e command
+    CompoundPipeline parent command -> do
+      (read, write) <- Process.createPipe
+      (_ea, eb) <- Async.concurrently (runPipeline i write e parent) (runCommand read o e command)
+      pure eb
 
 --
 -- Execute the specified command.

@@ -1,0 +1,14 @@
+#!/bin/sh -eux
+
+[ -f xsh.cabal ] || {
+    echo "Yes, this is a tremendously lazy script, please only run it from the root of the xsh project."
+    exit 1
+}
+
+./mafia build
+
+PATH=$PWD/dist/build/xsh:$PATH
+
+for x in examples/*; do
+    ./$x
+done

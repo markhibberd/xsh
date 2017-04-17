@@ -1,0 +1,9 @@
+#!/usr/bin/env xsh
+
+echo hello world
+
+echo 'hello
+world'
+
+echo hello \
+world

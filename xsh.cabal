@@ -14,7 +14,12 @@ library
 
   build-depends:
       base >= 3 && < 5
-
+    , async == 2.1.*
+    , containers >= 0.4 && < 0.6
+    , megaparsec == 5.3.*
+    , process == 1.4.*
+    , text >= 1.1 && < 1.3
+    , unix == 2.7.*
   ghc-options:
     -Wall
 
@@ -23,6 +28,11 @@ library
 
   exposed-modules:
     Xsh.Data
+    Xsh.Expansion
+    Xsh.Interpretter
+    Xsh.Lexer
+    Xsh.Parser
+    Xsh.Prelude
 
 
 executable xsh
@@ -30,6 +40,8 @@ executable xsh
   main-is: main/xsh.hs
   build-depends:
       base >= 3 && < 5
+    , haskeline == 0.7.*
+    , optparse-applicative == 0.13.*
     , xsh
 
   ghc-options:
@@ -44,8 +56,11 @@ test-suite test
   hs-source-dirs: test
   build-depends:
       base >= 3 && < 5
+    , megaparsec
+    , text
     , xsh
-    , QuickCheck >= 2.8.2      && < 2.9
+    , QuickCheck >= 2.8.2 && < 2.9
+    , quickcheck-instances == 0.3.*
 
   ghc-options:
     -Wall

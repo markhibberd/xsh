@@ -1,0 +1,38 @@
+
+export PAGER=cat
+man 2 fork | head -27
+man 2 execve | head -20
+man 3 exec | head -38
+
+# Like Russian Roulette with Six Bullets Loaded
+
+# dropping a database or deleting the golden copy of source control
+
+# shellshock
+
+# PS1 bug
+
+# bumblee
+
+open https://github.com/MrMEEE/bumblebee-Old-and-abbandoned/commit/a047be85247755cdbe0acce6f1dafc8beb84f2ac
+
+open https://github.com/MrMEEE/bumblebee-Old-and-abbandoned/issues/123
+
+# lexing
+
+false || echo fred
+
+true && echo fred
+
+echo "fred"
+
+echo 'fred'
+
+echo fre"d"
+
+echo fred\ flinstone
+
+echo 'fred
+flinstone'
+
+echo "fred"' 'flin"stone"

@@ -1,0 +1,3 @@
+#!/usr/bin/env xsh
+
+echo greeting world | sed -e 's/greeting/hello/'

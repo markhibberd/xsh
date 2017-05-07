@@ -15,9 +15,14 @@ BEFORE YOUR ARRIVE FOR WORKSHOP:
 ---
  or
 ---
- ./mafia build 
+ ./mafia build
 ---
-
+ or
+---
+ # If you have Stack installed:
+ stack setup
+ stack build
+---
 ```
 
 An experimental toy shell.

@@ -18,8 +18,6 @@ BEFORE YOUR ARRIVE FOR WORKSHOP:
  ./mafia build 
 ---
 
-
- If you haven't done this, I will try to 
 ```
 
 An experimental toy shell.

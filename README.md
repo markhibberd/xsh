@@ -1,6 +1,27 @@
 xsh
 ===
 
+```
+BEFORE YOUR ARRIVE FOR WORKSHOP:
+
+ - Have GHC 8 installed
+ - git clone https://github.com/markhibberd/xsh.git
+ - cd xsh
+ - one-of:
+---
+ cabal install --only-dependencies
+ cabal configure
+ cabal build
+---
+ or
+---
+ ./mafia build 
+---
+
+
+ If you haven't done this, I will try to 
+```
+
 An experimental toy shell.
 
 `xsh` is designed to be the base of a workshop aimed at building a

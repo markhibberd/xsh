@@ -92,6 +92,11 @@ Optional Tasks:
  - Implement the `pipefail` setting, that when set fails the pipeline
    when any part of it exits non-zero.
 
+Challenge Task:
+
+ - Replace usage of System.process with fork/exec following one of the
+   alternative process management patterns.
+
 Phase Three
 -----------
 

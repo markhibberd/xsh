@@ -211,4 +211,6 @@ http://hyperpolyglot.org/unix-shells
 
 Megaparsec Hackage Docs - https://hackage.haskell.org/package/megaparsec-5.3.0
 
+Write your own parsing library - http://ivan-m.github.io/CanFP-Parsing/ https://github.com/ivan-m/CanFP-Parsing
+
 Process Management Hierarchy Approaches - http://web.cse.ohio-state.edu/~mamrak.1/CIS762/pipes_lab_notes.html
